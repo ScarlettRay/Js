@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* CSS Document */
+body { margin:0; position:relative; background:#ffffff; z-index:100;}
+#dialog { width:600px; height:300px; position:absolute; 
+-webkit-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+user-select:none;
+z-index:200;}
+#dialog .dialogtitlebar {width:600px; height:38px;  
+background: -webkit-linear-gradient(top, #7fc7fd , #46a8f8);
+background: -o-linear-gradient(top, #7fc7fd, #46a8f8);
+background: -moz-linear-gradient(top, #7fc7fd, #46a8f8);
+background: linear-gradient(to top, #7fc7fd , #46a8f8);
+position:relative;
+cursor:move;
+z-index:200;}
+#dialog .dialogtitlebar .title { color:#ffffff; font-size:16px; font-weight:bold; position:absolute; left:20px; top:10px; z-index:200;}
+#dialog .dialogtitlebar .close { width:20px; height:20px; background:url(Images/close.png) -2px 0 no-repeat; border:none; outline:none; cursor:pointer; position:absolute; right:10px; top:9px;}
+#dialog .dialogtitlebar .close:hover { background:url(Images/close.png) -22px 0 no-repeat; z-index:200;}
+#dialog .dialogbody { width:600px; height:250px; background-color:#fafafa; position:relative; z-index:200;}
