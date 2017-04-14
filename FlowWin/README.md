@@ -1,6 +1,6 @@
 # FlowWin
 A Flow window display on website.
-Usage:You tow functions to create FolwWin.
+Usage:Two functions to create FolwWin under.
 
 /**
 *@Author Ray

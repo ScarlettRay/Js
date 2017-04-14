@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+        * {
+            padding: 0;
+            border: 0;
+            margin: 0
+        }
+
+        ul li {
+            width: 200px;
+            height: 100px;
+            background: rgba(44, 131, 25, 0.5);
+            margin-top: 30px;
+            opacity:0.5;
+        }
+    </style>
+    <script type="text/javascript" src="../js/move.js"></script>
+
+    <meta charset="UTF-8">
+    <title>Moving</title>
+</head>
+<body>
+<div>
+    <ul>
+        <li id="Li1"></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+</body>
+<script type="text/javascript">
+    window.onload = function () {
+        var lis = document.getElementsByTagName("li");
+        for (var i = 0; i < lis.length; i++) {
+            (function (i) {
+//                if (addEventListener) {
+//                    lis[i].addEventListener("mouseover", function () {
+//                        moveStart(lis[i], {width:400,height:400})
+//                    });
+//                    lis[i].addEventListener("mouseout", function () {
+//                        moveStart(lis[i], {width:200,height:100})
+//                    });
+//                } else {
+//                    lis[i].attachEvent("onmouseover", function () {
+//                        moveStart(lis[i], {width:400,height:400})
+//                    });
+//                    lis[i].attachEvent("onmouseout", function () {
+//                        moveStart(lis[i], {width:200,height:100})
+//                    });
+//                }
+//
+                lis[i].addEventListener("mouseover", function () {
+                        moveStart(lis[i], {height:400,width:600,opacity:1})
+                    });
+                    lis[i].addEventListener("mouseout", function () {
+                        moveStart(lis[i], {height:100,width:200,opacity:0.5})
+                    });
+            }(i))
+
+        }
+    }
+</script>
+</html>
