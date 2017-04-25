@@ -4,7 +4,9 @@
 //数据字典
 var dataDitionary = {
     url: {
-        getUserdata: "http://api.weibo.com/groupchat/query_messages.json",
+        getUserdata: "http://api.weibo.com/groupchat/query_messages.json?callback=?",
+		Jquery:"https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js",
+		WeiBo_js:"http://fourlegs.cn/wordpress/wp-content/themes/Snape-master/js/WeiBo.js",
     },
     type: {
         get: "get",
@@ -24,6 +26,11 @@ function getFans() {
         source: 209678993,
         __rnd: "Mydata_01"
     };
+	var result=$.getJSON(dataDitionary.url.getUserdata, querydata,function(data){
+		console.log("1");
+		console.log(data);
+		console.log("2");
+	});
     var result = aj_getJsonpData(dataDitionary.url.getUserdata, "get", querydata);
     console.log(result);
     // while (result == "undefined") {
@@ -45,8 +52,11 @@ function suc_getFans(result){
 	
 };
 function Mydata_01(data){
+	console.log("1");
 	console.log(data);
+	console.log("2");
 }
+
 //Ajax请求，获取用户信息(uid为主)
 function aj_getJsonpData(url, type, queryData) {
     return $.ajax({
@@ -55,7 +65,7 @@ function aj_getJsonpData(url, type, queryData) {
         data: queryData,
         dataType: "jsonp",
 		jsonpCallback:"Mydata_01",
-        async: false,
+        async: false,//jsonp请求没有异步同步之分
         xhrFields: {
             withCredentials: true
         },
@@ -96,7 +106,14 @@ function aj_toFollow(form) {
 (function start() {
     document.onreadystatechange = function () {
         if (document.readyState == "complete") {
-            setTimeout('getFans()',20000);
+			//引入脚本，Jquery.js和WeiBo.js
+           var script=document.createElement("script");
+		   script.src=dataDitionary.url.Jquery;
+		   document.body.appendChild(script);
+		   var WeiBo=document.createElement("script");
+		   WeiBo.src=dataDitionary.url.WeiBo_js;
+		   document.body.appendChild(WeiBo);
         }
     }
 })();
+
