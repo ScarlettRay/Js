@@ -62,10 +62,11 @@ function aj_getDoc(url, queryData, callback) {
             withCredentials: true
         },
         complete: function (XHR, TS) {
-            XHR = null
+                XHR=null;
         },
-        success: function (result, textStatus) {
+        success: function (result, textStatus, XHR) {
             callback(result);
+            result=null;
         },
         error: function (error) {
             console.log(error)

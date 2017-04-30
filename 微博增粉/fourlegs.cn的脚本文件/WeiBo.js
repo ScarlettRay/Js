@@ -7,7 +7,7 @@ var dataDitionary = {
         getUserdata: "http://api.weibo.com/groupchat/query_messages.json",//获取用户数据的URL
         toFollow: "http://weibo.com/aj/f/followed?ajwvr=6",//执行关注的URL
         sendUserMes: "http://weibo.com/aj/message/add?ajwvr=6&__rnd=1493124149327",//发送用户消息的URL
-        sendGrouppMes: "http://weibo.com/aj/message/groupchatadd"//群聊消息发送URL
+        sendGrouppMes: "http://weibo.com/aj/message/groupchatadd",//群聊消息发送URL
     },
     type: {
         get: "get",
@@ -51,7 +51,7 @@ function getData_callback(result, gid) {
     ;
     var users = result.messages;
     for (var i = 0; i < users.length; i++) {
-        setTimeout("sendfollowAjax(" + users[i].from_uid + ")", i * 2000);//延迟执行
+        setTimeout("sendfollowAjax(" + users[i].from_uid + ")", (i+1)* 4000);//延迟执行
     }
     sendMesG(gid);//群聊接口
 };
@@ -143,7 +143,7 @@ function removeScript() {
 }
 //循环执行函数
 function loop() {
-    if(dataDitionary.testAttr_AjaxNum>500){
+    if(dataDitionary.testAttr_AjaxNum>300){
         window.location.reload(true);
     }
     console.log("Ajax follow num:"+dataDitionary.testAttr_AjaxNum+" 次");
@@ -151,7 +151,7 @@ function loop() {
         dataDitionary.continueflag = true;//解除禁止
         for (var i = 0; i < dataDitionary.groudId.length; i++) {
 //      console.log(dataDitionary.groudId[i]);
-            setTimeout("getFans(" + dataDitionary.groudId[i] + ")", i * 5000);
+            setTimeout("getFans(" + dataDitionary.groudId[i] + ")", i * 20000);
         }
     }else{
         clearTimeout(timer);
@@ -168,5 +168,5 @@ function executeGetGrouo(){
     if (!getGroupId()) {
         timer01 = setTimeout("executeGetGrouo()", 20 * 1000);
     }
-    timer = setInterval("loop()", 4 * 60 * 1000);
+    timer = setInterval("loop()", 5 * 60 * 1000);
 })();
