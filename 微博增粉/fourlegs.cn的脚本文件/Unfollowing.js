@@ -8,7 +8,7 @@ var dataDitionary2 = {
         followPage: "http://weibo.com/p/1005055945738590/myfollow?t=1" //关注页的url,翻页用
     },
     uids: new Array,  //保存用户的id
-    unfollowNum: 100, //取消关注的人数
+    unfollowNum: 1000, //取消关注的人数
     curPage: null
 }
 /**
@@ -33,11 +33,30 @@ function unfollow_callback(result) {
     }
     sessionStorage.unfollowNum = sessionStorage.unfollowNum - dataDitionary2.uids.length;
 //    dataDitionary2.uids.splice(0,dataDitionary2.uids.length);//数组清空
-    if (dataDitionary2.curPage - 1 > 0) {
-        changePage(dataDitionary2.curPage - 1) //翻页
-    }
+    if (dataDitionary2.curPage - 1 > 0 && sessionStorage.unfollowNum > 0) {
+        changePage(--dataDitionary2.curPage) //翻页
+    }else{
+		alert("OK!");
+	}
 
 }
+
+function getUid(result){
+	console.log("获取取关人的uid");
+	var pattern=/action-data=\\"uid=\d+&profile/g;
+	var uidpattern=/\d+/;
+	var matches=pattern.exec(result)
+	while(matches){
+		dataDitionary2.uids.push(uidpattern.exec(matches[0])[0]);
+		var matches=pattern.exec(result);
+	}
+	console.log(dataDitionary2.uids);
+	result=null;
+	unfollowing();	
+}
+/**
+*	废弃（为了解决Chrome不工作的状况）
+*
 function getUid() {
     var lis = $(".member_ul.clearfix").children();
     for (var i = 0; i < lis.length; i++) {
@@ -49,12 +68,18 @@ function getUid() {
         }
     }
 }
-
+*/
 /**
  * 翻页函数
- */
+ 
 function changePage(pageMun) {
     window.location = dataDitionary2.urls.followPage + "&Pl_Official_RelationMyfollow__93_page=" + pageMun;
+}
+*/
+//Ajax请求获取页面信息
+function changePage(pageMun){
+	dataDitionary2.uids=new Array;//清空
+	aj_getDoc(dataDitionary2.urls.followPage, {"Pl_Official_RelationMyfollow__93_page": pageMun},getUid);
 }
 // //启动函数(方法1 废弃)
 // function unfollowStart(){
@@ -69,9 +94,9 @@ function changePage(pageMun) {
 //     }
 // };
 /**
- * 逻辑函数
+ * 逻辑函数(废弃)
  * @constructor
- */
+ 
 function Service() {
     try {
         if (window.location.pathname.indexOf("/home") > -1) {//判断是否为首页
@@ -103,7 +128,26 @@ function Service() {
         setTimeout("Service()",2*60*1000);
     }
 }
-//启动函数(方法2)
-(function unfollowStart() {
-    setTimeout("Service()", 20 * 1000);//TODO
-})();
+*/
+/**
+*	逻辑函数（取关直接在首页进行）
+*/
+function Service(){
+	try {
+        if (window.location.pathname.indexOf("/home") > -1) {//判断是否为首页
+            var followNum = $("strong[node-type='follow']")[0].innerHTML;
+            var pageNum = followNum % 30 == 0 ? followNum / 30 : Math.ceil(followNum / 30);
+			dataDitionary2.curPage=pageNum;			
+            sessionStorage.setItem("unfollowNum", dataDitionary2.unfollowNum);//存储需要取关的人数
+            sessionStorage.setItem("followNum", followNum);//存储取关操作前关注的人数           
+            aj_getDoc(dataDitionary2.urls.followPage, {"Pl_Official_RelationMyfollow__93_page": pageNum},getUid);
+         
+        } else {
+            console.log("01");
+        }
+    }catch(error){
+        console.log("unfolowing.js has something wrong.Another time. error message:"+error.message);
+        setTimeout("Service()",2*60*1000);
+    }
+}
+//启动取关函数(方法2)
