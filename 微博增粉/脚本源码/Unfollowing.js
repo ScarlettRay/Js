@@ -5,7 +5,7 @@
 var dataDitionary2 = {
     urls: {
         unfollow: "http://weibo.com/aj/f/unfollow?ajwvr=6&__rnd=1493186279517", //取消关注的url
-        followPage: "http://weibo.com/p/1005055945738590/myfollow?t=1" //关注页的url,翻页用
+        followPage: window.location.href //关注页的url,翻页用
     },
     uids: new Array,  //保存用户的id
     unfollowNum: 1000, //取消关注的人数
@@ -134,7 +134,7 @@ function Service() {
 */
 function Service(){
 	try {
-        if (window.location.pathname.indexOf("/home") > -1) {//判断是否为首页
+        if (true) {//判断是否为首页 废
             var followNum = $("strong[node-type='follow']")[0].innerHTML;
             var pageNum = followNum % 30 == 0 ? followNum / 30 : Math.ceil(followNum / 30);
 			dataDitionary2.curPage=pageNum;			

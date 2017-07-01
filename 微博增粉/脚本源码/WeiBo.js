@@ -147,7 +147,7 @@ function loop() {
         window.location.reload(true);
     }
     console.log("Ajax follow num:"+dataDitionary.testAttr_AjaxNum+" 次");
-    if (dataDitionary.followingflag) {
+    if (dataDitionary.followingflag||dataDitionary.groudId.length ==0) {
         dataDitionary.continueflag = true;//解除禁止
         for (var i = 0; i < dataDitionary.groudId.length; i++) {
 //      console.log(dataDitionary.groudId[i]);

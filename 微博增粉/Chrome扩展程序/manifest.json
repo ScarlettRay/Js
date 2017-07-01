@@ -1,0 +1,22 @@
+﻿{
+    "manifest_version": 2,
+    "name": "微博增粉",
+    "version": "1.0",
+    "description": "微博增粉脚本插件",
+	"icons":{"16":"Images/16.png","48":"Images/48.png","128":"Images/128.png"},
+    "content_scripts": [
+        {
+            "matches": ["http://weibo.com/u/*/home?*","http://weibo.com/*/follow?*","http://weibo.com/p/*/myfollow*","http://weibo.com/*"],
+            "js": ["js/WeiBo.js","js/jquery.min.js"]
+        }
+    ],
+	"web_accessible_resources" : [
+			"js/WeiBo.js",
+			"js/jquery.min.js"
+  ],
+	"browser_action": {  
+    "default_icon": "Images/16.png" ,
+    "default_title": "微博增粉",
+    "default_popup": "popup.html"
+  }
+}
