@@ -4,7 +4,6 @@ document.getElementsByClassName("options")[0].onclick=function(){
 	 chrome.tabs.query(
       {active: true, currentWindow: true}, 
       function(tabs) {
-		  console.log(tabs[0].id)
             chrome.tabs.sendMessage(
               tabs[0].id, 
               {getfans: document.getElementsByClassName("getfans")[0].checked,
@@ -13,6 +12,8 @@ document.getElementsByClassName("options")[0].onclick=function(){
 			  }, 
               function(response) {
                       console.log(response.text);
+					  window.close();
           });
  });
+ 
 }

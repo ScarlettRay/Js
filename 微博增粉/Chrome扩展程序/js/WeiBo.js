@@ -34,7 +34,7 @@ function installScript(getfans,unfollow,forward){
 		   document.body.appendChild(WeiBo);
 		   
 			}
-		if(window.location.host.indexOf("weibo.com")>-1&&unfollow){
+		if(window.location.host.indexOf("/home")>-1&&unfollow){
 			if(!commons){
 			commons=document.createElement("script");
 		   commons.src=dataDitionary.url.commons;
