@@ -4,101 +4,74 @@
 //数据字典
 var dataDitionary = {
     url: {
-		Jquery:"https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js",
-		WeiBo_js:"http://fourlegs.cn/wordpress/wp-content/themes/Snape-master/js/WeiBo.js",
-		UnFollowing:"http://fourlegs.cn/wordpress/wp-content/themes/Snape-master/js/Unfollowing.js",
-		commons:"http://fourlegs.cn/wordpress/wp-content/themes/Snape-master/js/Commons.js",
-		sendWeiBo:"http://fourlegs.cn/wordpress/wp-content/themes/Snape-master/js/SnedWeiBo.js"
+        Jquery:"https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js",
+        WeiBo_js:"http://fourlegs.cn/wordpress/wp-content/themes/Snape-master/js/WeiBo.js",
+        UnFollowing:"http://fourlegs.cn/wordpress/wp-content/themes/Snape-master/js/Unfollowing.js",
+        commons:"http://fourlegs.cn/wordpress/wp-content/themes/Snape-master/js/Commons.js",
+        sendWeiBo:"http://fourlegs.cn/wordpress/wp-content/themes/Snape-master/js/SnedWeiBo.js"
     },
-	hasStarted:false
+    hasStarted:false
 };
-
+//安装js
+function installWidthUrl(url){
+	var js=document.createElement("script");
+	js.src=url;
+	document.body.appendChild(js);
+}
 //启动
 function installScript(getfans,unfollow,forward){
-	var commons,script;
-	
-        if (document.readyState == "complete") {
-			console.log("执行Chrome扩展程序");
-			if(window.location.pathname.indexOf("/home")>-1&&getfans){
-			//引入脚本，Jquery.js和WeiBo.js,commons.js
-			commons=document.createElement("script");
-		   commons.src=dataDitionary.url.commons;
-		   document.body.appendChild(commons);
-		   
-           script=document.createElement("script");
-		   script.src=dataDitionary.url.Jquery;
-		   document.body.appendChild(script);
-		   
-		   var WeiBo=document.createElement("script");
-		   WeiBo.src=dataDitionary.url.WeiBo_js;
-		   document.body.appendChild(WeiBo);
-		   
-			}
-		if(window.location.host.indexOf("/home")>-1&&unfollow){
-			if(!commons){
-			commons=document.createElement("script");
-		   commons.src=dataDitionary.url.commons;
-		   document.body.appendChild(commons);
-			}
-			if(script){
-			var unfollow=document.createElement("script");
-		   unfollow.src=dataDitionary.url.UnFollowing;
-		   document.body.appendChild(unfollow);	
-			}else{
-			script=document.createElement("script");
-		   script.src=dataDitionary.url.Jquery;
-		   script.onload=function(){ 
-		   var unfollow=document.createElement("script");
-		   unfollow.src=dataDitionary.url.UnFollowing;
-		   document.body.appendChild(unfollow);
-		   };
-		   document.body.appendChild(script);	
-			}
-			
-			}
-		if(window.location.host.indexOf("weibo.com")>-1&&forward){
-			if(!commons){
-			commons=document.createElement("script");
-		   commons.src=dataDitionary.url.commons;
-		   document.body.appendChild(commons);	
-			}
-			
-			if(script){
-		   var sendWeiBo=document.createElement("script");
-		   sendWeiBo.src=dataDitionary.url.sendWeiBo;
-		   document.body.appendChild(sendWeiBo);				
-			}else{
-			script=document.createElement("script");
-		   script.src=dataDitionary.url.Jquery;
-		   script.onload=function(){ 
-		   var sendWeiBo=document.createElement("script");
-		   sendWeiBo.src=dataDitionary.url.sendWeiBo;
-		   document.body.appendChild(sendWeiBo);
-		   };
-		   document.body.appendChild(script);	
-			}
+    if (document.readyState == "complete") {
+        console.log("执行Chrome扩展程序");
+        var jquery = document.createElement("script");
+        jquery.src = dataDitionary.url.Jquery;
+        jquery.onload = function () {
+            installWidthUrl(dataDitionary.url.commons)
+            console.log("a"+getfans);
+            if (window.location.pathname.indexOf("/home") > -1 && getfans) {
+                //引入脚本，Jquery.js和WeiBo.js,commons.js
+				installWidthUrl(dataDitionary.url.WeiBo_js);
+				console.log("2")
+            }
+            if (window.location.pathname.indexOf("/home") > -1 && unfollow) {
+				installWidthUrl(dataDitionary.url.UnFollowing);
+            }
+            if (window.location.host.indexOf("weibo.com") > -1 && forward) {
+				installWidthUrl(dataDitionary.url.sendWeiBo);
+            }
 
-			}
-			
-        }else{
-			document.onreadystatechange = function () {
-				if (document.readyState == "complete"){
-				installScript(getfans,unfollow,forward);
-				}
-			}
-		}
-    
+        };
+        document.body.appendChild(jquery);
+    }
+    else
+        {
+            document.onreadystatechange = function () {
+                if (document.readyState == "complete") {
+                    installScript(getfans, unfollow, forward);
+                }
+            }
+        }
+
 };
 
+//与配置页面进行交互
 chrome.runtime.onMessage.addListener(
     function(message, sender, sendResponse) {
-		if(!dataDitionary.hasStarted){
-		installScript(message.getfans,message.unfollow,message.forward);
-		dataDitionary.hasStarted=true;
-		sendResponse({text: "脚本开始执行"})
-		}else{
-			alert("脚本已在执行！如要修改选项，请刷新后重新选择！")
-		}
-        
-});
+        if(!dataDitionary.hasStarted){
+            //安装脚本
+            console.log(message.unfollow);
+            installScript(message.getfans,message.unfollow,message.forward);
+            //存储配置到sessionstorage
+            sessionStorage.group_content=message.group_content;
+            sessionStorage.user_content=message.user_content;
+            sessionStorage.unfollow_mun=message.unfollow_mun;
+            sessionStorage.forwardtype=message.forwardtype;
+            sessionStorage.otherIDs=message.otherIDs;
+            dataDitionary.hasStarted=true;
+            sendResponse({text: "脚本开始执行"})
+        }else{
+            alert("脚本已在执行！如要修改选项，请刷新后重新选择！")
+        }
+
+    });
+
 

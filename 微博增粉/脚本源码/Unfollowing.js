@@ -5,11 +5,13 @@
 var dataDitionary2 = {
     urls: {
         unfollow: "http://weibo.com/aj/f/unfollow?ajwvr=6&__rnd=1493186279517", //取消关注的url
-        followPage: window.location.href //关注页的url,翻页用
+        followPage: null //关注页的url,翻页用
     },
     uids: new Array,  //保存用户的id
     unfollowNum: 1000, //取消关注的人数
-    curPage: null
+    curPage: null,
+	sleepflag:1,		//休息数值
+	urlnum:null
 }
 /**
  * 操作函数
@@ -52,7 +54,8 @@ function getUid(result){
 	}
 	console.log(dataDitionary2.uids);
 	result=null;
-	unfollowing();	
+	setTimeout("unfollowing()",dataDitionary2.sleepflag*5*1000);	
+	dataDitionary2.sleepflag++;
 }
 /**
 *	废弃（为了解决Chrome不工作的状况）
@@ -128,13 +131,29 @@ function Service() {
         setTimeout("Service()",2*60*1000);
     }
 }
+
 */
+//获取关注列表url中的一串数字
+function geturlnum(){
+	if(!dataDitionary2.urlnum){
+		var elem=document.getElementsByClassName("W_ficon ficon_setup S_ficon")[0];
+		var p=/\d+/g;
+		dataDitionary2.urlnum=p.exec(elem.href)[0];
+		geturlnum=function(){return dataDitionary2.urlnum;}
+	}
+	return dataDitionary2.urlnum;
+}
 /**
 *	逻辑函数（取关直接在首页进行）
 */
-function Service(){
+(function Service(){
+	if(sessionStorage.unfollow_mun){
+		dataDitionary2.unfollowNum=sessionStorage.unfollow_mun;
+	}
 	try {
-        if (true) {//判断是否为首页 废
+        if (window.location.pathname.indexOf("/home")>-1) {//判断是否为首页
+			//获取关注列表url中的一串数字
+			dataDitionary2.urls.followPage="http://weibo.com/p/"+geturlnum()+"/myfollow?t=1";
             var followNum = $("strong[node-type='follow']")[0].innerHTML;
             var pageNum = followNum % 30 == 0 ? followNum / 30 : Math.ceil(followNum / 30);
 			dataDitionary2.curPage=pageNum;			
@@ -149,5 +168,5 @@ function Service(){
         console.log("unfolowing.js has something wrong.Another time. error message:"+error.message);
         setTimeout("Service()",2*60*1000);
     }
-}
+})();
 //启动取关函数(方法2)

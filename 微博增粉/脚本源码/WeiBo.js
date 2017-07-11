@@ -62,11 +62,12 @@ function following_callback(result, uid) {
         console.log("暂停一会");
         dataDitionary.continueflag = false;
         //Pause();//休息一会
-    }
-    else if (result.code == 100001) {
+    }else if (result.code == 100001) {
         if(result.msg.indexOf("抱歉")>-1){
-            console.log("一位用户关注失败！")    //并无大碍
-        }else{
+            console.log("一位用户关注失败！");   //并无大碍
+        }else if(result.msg.indexOf("根据")>-1){
+			console.log("用户设置问题！");			//并无大诶
+		}else{
             console.log("达到关注的上限啦");
             dataDitionary.followingflag=false;
             dataDitionary.continueflag = false;
@@ -147,14 +148,14 @@ function loop() {
         window.location.reload(true);
     }
     console.log("Ajax follow num:"+dataDitionary.testAttr_AjaxNum+" 次");
-    if (dataDitionary.followingflag||dataDitionary.groudId.length ==0) {
+    if (dataDitionary.followingflag) {
         dataDitionary.continueflag = true;//解除禁止
         for (var i = 0; i < dataDitionary.groudId.length; i++) {
 //      console.log(dataDitionary.groudId[i]);
             setTimeout("getFans(" + dataDitionary.groudId[i] + ")", i * 20000);
         }
     }else{
-        clearTimeout(timer);
+        clearInterval(timer);
     }
 }
 
@@ -165,7 +166,15 @@ function executeGetGrouo(){
 }
 //启动
 (function start() {
-    if (!getGroupId()) {
+	//用户配置
+	if(sessionStorage.group_content!="default"){
+		dataDitionary.replayG=sessionStorage.group_content;
+	}
+	if(sessionStorage.user_content!="default"){
+		dataDitionary.replyU=sessionStorage.user_content;
+	}
+    
+	if (!getGroupId()) {
         timer01 = setTimeout("executeGetGrouo()", 20 * 1000);
     }
     timer = setInterval("loop()", 5 * 60 * 1000);
