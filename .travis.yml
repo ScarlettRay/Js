@@ -1,3 +1,5 @@
 language: javascript
+sudo: false
+script: bundle exec rspec
+dist: trusty
 
-dist: precise
