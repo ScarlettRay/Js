@@ -1,4 +1,4 @@
-[![SinaWeiBoRobot](https://img.shields.io/badge/detail-bolg-green.svg)](http://120.77.38.103//?p=103)
+[![SinaWeiBoRobot](https://img.shields.io/badge/detail-bolg-green.svg)](http://120.77.38.103//?p=103)       [![SinaWeiBoRobot](https://img.shields.io/badge/project-download-red.svg)](120.77.38.103/wordpress/wp-content/themes/MyDream1.5/js/chromeextension.zip)
 
 
 这个星期都被拿来写一个js脚本程序了，不过也还挺好玩的。下面就介绍一下这个历时一个星期完成的脚本文件。
