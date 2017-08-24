@@ -1,23 +1,23 @@
 # FlowWin
-A Flow window display on website.
+:heart_eyes:A Flow window display on website.
 Usage:Two functions to create FolwWin under.
 
 /**
 *@Author Ray
-*@param message ´°ÌåÄÚÈİhtml×Ö·û´®
-*		title ´°¿Ú±êÌâ
+*@param message ëˆ—ç«Ÿì½”íœ­htmlä¿šë¥œëˆ”
+*		title ëˆ—ì™¯ê¹ƒç—™
 */
 function createWin(message,title)
 
 /**
 *@Author Ray
-*@param message ´°ÌåÄÚÈİhtml×Ö·û´®
-*		title ´°¿Ú±êÌâ
-*		startColor ±êÌâÀ¸ÆğÊ¼ÑÕÉ«
-*		endColor ±êÌâÀ¸ÖÕÖ¹ÑÕÉ«
-*		dialogtitlebarWidth ±êÌâÀ¸¿í
-*		dialogtitlebarHeight ±êÌâÀ¸¸ß
-*		bodywidth ÄÚÈİ¿í
-*		bodyheight ÄÚÈİ¸ß
+*@param message ëˆ—ç«Ÿì½”íœ­htmlä¿šë¥œëˆ”
+*		title ëˆ—ì™¯ê¹ƒç—™
+*		startColor ê¹ƒç—™ìœ¼í…è¿¦ï¤Œî€Š
+*		endColor ê¹ƒç—™ìœ¼è€å²ºï¤Œî€Š
+*		dialogtitlebarWidth ê¹ƒç—™ìœ¼ìš±
+*		dialogtitlebarHeight ê¹ƒç—™ìœ¼ë©•
+*		bodywidth ì½”íœ­ìš±
+*		bodyheight ì½”íœ­ë©•
 */
 function createWin(message,title,startColor,endColor,dialogtitlebarWidth,dialogtitlebarHeight,bodywidth,bodyheight)
